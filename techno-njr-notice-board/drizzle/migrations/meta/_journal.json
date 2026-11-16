@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1794318140571,
+      "tag": "0000_campus_notices_and_profiles",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1794318167672,
+      "tag": "0001_notice_attachments_read",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1794319266895,
+      "tag": "0002_techno_njr_categories_and_pinned",
+      "breakpoints": true
+    }
+  ]
+}
