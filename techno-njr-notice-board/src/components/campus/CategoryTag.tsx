@@ -1,7 +1,13 @@
 import { CATEGORIES, type CategoryId } from "@/lib/categories";
 import { cn } from "@/lib/utils";
 
-export function CategoryTag({ category, className }: { category: CategoryId; className?: string }) {
+export function CategoryTag({
+  category,
+  className,
+}: {
+  category: CategoryId;
+  className?: string;
+}) {
   const meta = CATEGORIES[category];
   return (
     <span
@@ -11,7 +17,10 @@ export function CategoryTag({ category, className }: { category: CategoryId; cla
         className,
       )}
     >
-      <span className={cn("h-1.5 w-1.5 rounded-full", meta.dotClass)} aria-hidden />
+      <span
+        className={cn("h-1.5 w-1.5 rounded-full", meta.dotClass)}
+        aria-hidden
+      />
       {meta.label}
     </span>
   );

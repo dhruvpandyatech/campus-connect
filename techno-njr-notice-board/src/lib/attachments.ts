@@ -4,7 +4,8 @@ export const STORAGE_PREFIX = "storage:";
 
 export function attachmentLabel(raw: string): string {
   if (raw.startsWith(STORAGE_PREFIX)) {
-    const file = raw.slice(STORAGE_PREFIX.length).split("/").pop() ?? "Attachment";
+    const file =
+      raw.slice(STORAGE_PREFIX.length).split("/").pop() ?? "Attachment";
     // Strip the "<timestamp>-" prefix added on upload.
     return decodeURIComponent(file.replace(/^\d+-/, ""));
   }

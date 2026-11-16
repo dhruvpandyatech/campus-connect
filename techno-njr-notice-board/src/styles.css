@@ -70,6 +70,13 @@
   --color-cat-administration: var(--cat-administration);
   --color-cat-administration-soft: var(--cat-administration-soft);
 
+  --color-cat-accounts: var(--cat-accounts);
+  --color-cat-accounts-soft: var(--cat-accounts-soft);
+  --color-cat-fees: var(--cat-fees);
+  --color-cat-fees-soft: var(--cat-fees-soft);
+  --color-cat-examination: var(--cat-examination);
+  --color-cat-examination-soft: var(--cat-examination-soft);
+
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
@@ -145,8 +152,18 @@
   --cat-administration: oklch(0.5 0.11 70);
   --cat-administration-soft: oklch(0.955 0.08 95);
 
-  --shadow-card: 0 1px 2px oklch(0.2 0 0 / 0.05), 0 4px 16px -8px oklch(0.2 0 0 / 0.12);
-  --shadow-lift: 0 2px 4px oklch(0.2 0 0 / 0.05), 0 16px 32px -16px oklch(0.2 0 0 / 0.25);
+  /* New category colours: teal (accounts), orange (fees), violet (examination) */
+  --cat-accounts: oklch(0.47 0.12 190);
+  --cat-accounts-soft: oklch(0.95 0.04 190);
+  --cat-fees: oklch(0.52 0.15 55);
+  --cat-fees-soft: oklch(0.96 0.06 60);
+  --cat-examination: oklch(0.46 0.14 290);
+  --cat-examination-soft: oklch(0.95 0.04 290);
+
+  --shadow-card:
+    0 1px 2px oklch(0.2 0 0 / 0.05), 0 4px 16px -8px oklch(0.2 0 0 / 0.12);
+  --shadow-lift:
+    0 2px 4px oklch(0.2 0 0 / 0.05), 0 16px 32px -16px oklch(0.2 0 0 / 0.25);
 
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
@@ -190,7 +207,11 @@
 @utility masthead-bg {
   background-color: var(--masthead);
   background-image:
-    radial-gradient(120% 140% at 100% 0%, oklch(0.52 0.17 24 / 0.9) 0%, transparent 55%),
+    radial-gradient(
+      120% 140% at 100% 0%,
+      oklch(0.52 0.17 24 / 0.9) 0%,
+      transparent 55%
+    ),
     linear-gradient(180deg, var(--masthead) 0%, var(--primary-deep) 100%);
 }
 

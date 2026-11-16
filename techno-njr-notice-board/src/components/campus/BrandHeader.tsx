@@ -5,7 +5,11 @@ import logoAsset from "@/assets/techno-njr-logo.jpeg.asset.json";
 /** Official circular institute emblem, served from the CDN asset pointer. */
 const LOGO_SRC: string | null = logoAsset.url;
 
-export function InstituteLogo({ className = "h-11 w-11" }: { className?: string }) {
+export function InstituteLogo({
+  className = "h-11 w-11",
+}: {
+  className?: string;
+}) {
   if (LOGO_SRC) {
     return (
       <img

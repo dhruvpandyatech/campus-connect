@@ -1,0 +1,11 @@
+{
+  "name": "techno-njr-notice-board-root",
+  "private": true,
+  "scripts": {
+    "dev": "npm --prefix techno-njr-notice-board run dev",
+    "build": "npm --prefix techno-njr-notice-board run build",
+    "test": "npm --prefix techno-njr-notice-board run test",
+    "lint": "npm --prefix techno-njr-notice-board run lint",
+    "format": "npm --prefix techno-njr-notice-board run format"
+  }
+}

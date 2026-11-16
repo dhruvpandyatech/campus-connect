@@ -11,9 +11,18 @@ export const Route = createFileRoute("/reset-password")({
   head: () => ({
     meta: [
       { title: "Set a New Password — Techno NJR Notice Board" },
-      { name: "description", content: "Choose a new password for your faculty account." },
-      { property: "og:title", content: "Set a New Password — Techno NJR Notice Board" },
-      { property: "og:description", content: "Choose a new password for your faculty account." },
+      {
+        name: "description",
+        content: "Choose a new password for your faculty account.",
+      },
+      {
+        property: "og:title",
+        content: "Set a New Password — Techno NJR Notice Board",
+      },
+      {
+        property: "og:description",
+        content: "Choose a new password for your faculty account.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "robots", content: "noindex" },
@@ -55,7 +64,10 @@ function ResetPasswordPage() {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-5">
-      <form onSubmit={onSubmit} className="card-surface w-full max-w-md space-y-4 p-5 shadow-lift">
+      <form
+        onSubmit={onSubmit}
+        className="card-surface w-full max-w-md space-y-4 p-5 shadow-lift"
+      >
         <h1 className="text-xl font-semibold">Set a new password</h1>
         {!ready ? (
           <p className="text-sm text-muted-foreground">
@@ -75,7 +87,12 @@ function ResetPasswordPage() {
                 className="h-11"
               />
             </div>
-            <Button type="submit" size="lg" className="h-11 w-full" disabled={loading}>
+            <Button
+              type="submit"
+              size="lg"
+              className="h-11 w-full"
+              disabled={loading}
+            >
               {loading && <Loader2 className="animate-spin" />}
               Update password
             </Button>

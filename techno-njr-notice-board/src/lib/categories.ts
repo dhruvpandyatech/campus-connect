@@ -1,4 +1,12 @@
-export const CATEGORY_IDS = ["placements", "academic", "student", "administration"] as const;
+export const CATEGORY_IDS = [
+  "placements",
+  "academic",
+  "student",
+  "administration",
+  "accounts",
+  "fees",
+  "examination",
+] as const;
 export type CategoryId = (typeof CATEGORY_IDS)[number];
 
 export interface CategoryMeta {
@@ -39,13 +47,37 @@ export const CATEGORIES: Record<CategoryId, CategoryMeta> = {
     tagClass: "bg-cat-administration-soft text-cat-administration",
     dotClass: "bg-cat-administration",
   },
+  accounts: {
+    id: "accounts",
+    label: "Accounts",
+    emoji: "🧾",
+    tagClass: "bg-cat-accounts-soft text-cat-accounts",
+    dotClass: "bg-cat-accounts",
+  },
+  fees: {
+    id: "fees",
+    label: "Fees",
+    emoji: "💰",
+    tagClass: "bg-cat-fees-soft text-cat-fees",
+    dotClass: "bg-cat-fees",
+  },
+  examination: {
+    id: "examination",
+    label: "Examination",
+    emoji: "📝",
+    tagClass: "bg-cat-examination-soft text-cat-examination",
+    dotClass: "bg-cat-examination",
+  },
 };
 
 /** Used when a stored category is unknown (should not happen thanks to the DB CHECK). */
 export const FALLBACK_CATEGORY: CategoryId = "administration";
 
 export function isCategoryId(value: unknown): value is CategoryId {
-  return typeof value === "string" && (CATEGORY_IDS as readonly string[]).includes(value);
+  return (
+    typeof value === "string" &&
+    (CATEGORY_IDS as readonly string[]).includes(value)
+  );
 }
 
 /** Keyword rules for the smart category suggestion on the faculty form. */
@@ -63,7 +95,6 @@ export const CATEGORY_KEYWORDS: Record<CategoryId, string[]> = {
     "ctc",
   ],
   academic: [
-    "exam",
     "timetable",
     "schedule",
     "result",
@@ -91,7 +122,6 @@ export const CATEGORY_KEYWORDS: Record<CategoryId, string[]> = {
   ],
   administration: [
     "holiday",
-    "fee",
     "deadline",
     "circular",
     "official",
@@ -99,6 +129,47 @@ export const CATEGORY_KEYWORDS: Record<CategoryId, string[]> = {
     "scholarship",
     "vacation",
     "meeting",
+  ],
+  accounts: [
+    "account",
+    "audit",
+    "ledger",
+    "balance",
+    "receipt",
+    "invoice",
+    "payment",
+    "transaction",
+    "reimbursement",
+    "expenditure",
+    "budget",
+  ],
+  fees: [
+    "fee",
+    "tuition",
+    "challan",
+    "dues",
+    "fine",
+    "penalty",
+    "refund",
+    "hostel fee",
+    "library fee",
+    "exam fee",
+    "late fee",
+  ],
+  examination: [
+    "exam",
+    "examination",
+    "hall ticket",
+    "admit card",
+    "seating",
+    "invigilator",
+    "malpractice",
+    "answer sheet",
+    "centre",
+    "external exam",
+    "university exam",
+    "practical exam",
+    "viva",
   ],
 };
 
@@ -133,8 +204,14 @@ export function suggestCategory(text: string): CategoryId | null {
     regex.lastIndex = 0;
     let m: RegExpExecArray | null;
     while ((m = regex.exec(text)) !== null) {
-      const prev = scores.get(category) ?? { count: 0, first: Number.POSITIVE_INFINITY };
-      scores.set(category, { count: prev.count + 1, first: Math.min(prev.first, m.index) });
+      const prev = scores.get(category) ?? {
+        count: 0,
+        first: Number.POSITIVE_INFINITY,
+      };
+      scores.set(category, {
+        count: prev.count + 1,
+        first: Math.min(prev.first, m.index),
+      });
     }
   }
 
