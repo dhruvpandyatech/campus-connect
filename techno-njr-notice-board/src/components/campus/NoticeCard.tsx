@@ -29,7 +29,7 @@ export function AudienceTag({
   audience = "all",
   className,
 }: {
-  audience?: TargetAudience;
+  audience?: TargetAudience | undefined;
   className?: string;
 }) {
   const meta = AUDIENCE_CONFIG[audience] ?? AUDIENCE_CONFIG.all;

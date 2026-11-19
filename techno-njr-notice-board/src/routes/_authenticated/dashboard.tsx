@@ -71,6 +71,7 @@ import {
 } from "@/lib/faculty.queries";
 import { updateNotice } from "@/lib/notices.functions";
 import { cn } from "@/lib/utils";
+import type { TablesInsert } from "@/integrations/supabase/types";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
   head: () => ({
@@ -385,7 +386,7 @@ function PublishForm({ userId }: { userId: string }) {
         attachmentUrl = STORAGE_PREFIX + path;
       }
 
-      const insertPayload: Record<string, unknown> = {
+      const insertPayload: TablesInsert<"notices"> = {
         title: t,
         content: d,
         category,
@@ -401,7 +402,7 @@ function PublishForm({ userId }: { userId: string }) {
         (error.message.includes("target_audience") ||
           error.message.includes("does not exist"))
       ) {
-        delete insertPayload.target_audience;
+        delete insertPayload["target_audience"];
         const fallbackRes = await supabase
           .from("notices")
           .insert(insertPayload);

@@ -15,6 +15,7 @@ import {
   type TargetAudience,
   type ViewerContext,
 } from "./target-audience";
+import type { TablesUpdate } from "@/integrations/supabase/types";
 
 export interface FeedNotice {
   id: string;
@@ -241,28 +242,31 @@ export const updateNotice = createServerFn({ method: "POST" })
   .validator((raw: unknown) => {
     if (!raw || typeof raw !== "object") throw new Error("Invalid payload");
     const d = raw as Record<string, unknown>;
-    if (typeof d.noticeId !== "string" || !d.noticeId)
+    if (typeof d["noticeId"] !== "string" || !d["noticeId"])
       throw new Error("Missing noticeId");
-    if (typeof d.userId !== "string" || !d.userId)
+    if (typeof d["userId"] !== "string" || !d["userId"])
       throw new Error("Missing userId");
-    if (typeof d.title !== "string" || d.title.trim().length < 3)
+    if (typeof d["title"] !== "string" || String(d["title"]).trim().length < 3)
       throw new Error("Title too short");
-    if (typeof d.content !== "string" || d.content.trim().length < 10)
+    if (
+      typeof d["content"] !== "string" ||
+      String(d["content"]).trim().length < 10
+    )
       throw new Error("Content too short");
-    if (!isCategoryId(d.category)) throw new Error("Invalid category");
-    const audience = isTargetAudience(d.targetAudience)
-      ? d.targetAudience
-      : normalizeAudience(d.targetAudience);
+    if (!isCategoryId(d["category"])) throw new Error("Invalid category");
+    const audience = isTargetAudience(d["targetAudience"])
+      ? d["targetAudience"]
+      : normalizeAudience(d["targetAudience"]);
 
     return {
-      noticeId: d.noticeId as string,
-      userId: d.userId as string,
-      title: (d.title as string).trim().slice(0, 200),
-      content: (d.content as string).trim().slice(0, 5000),
-      category: d.category as CategoryId,
+      noticeId: d["noticeId"] as string,
+      userId: d["userId"] as string,
+      title: String(d["title"]).trim().slice(0, 200),
+      content: String(d["content"]).trim().slice(0, 5000),
+      category: d["category"] as CategoryId,
       targetAudience: audience,
-      attachmentUrl: (d.attachmentUrl as string | null) ?? null,
-      isPinned: Boolean(d.isPinned),
+      attachmentUrl: (d["attachmentUrl"] as string | null) ?? null,
+      isPinned: Boolean(d["isPinned"]),
     };
   })
   .handler(async ({ data }) => {
@@ -277,7 +281,7 @@ export const updateNotice = createServerFn({ method: "POST" })
       },
     });
 
-    const updatePayload: Record<string, unknown> = {
+    const updatePayload: TablesUpdate<"notices"> = {
       title: data.title,
       content: data.content,
       category: data.category,
@@ -286,7 +290,7 @@ export const updateNotice = createServerFn({ method: "POST" })
     };
 
     // Include target_audience in update
-    updatePayload.target_audience = data.targetAudience;
+    updatePayload["target_audience"] = data.targetAudience;
 
     // Security: scope update to the owner — if RLS is enforced this is doubly safe.
     let { error, count } = await supabase
@@ -297,7 +301,7 @@ export const updateNotice = createServerFn({ method: "POST" })
 
     // If column target_audience doesn't exist yet, retry without it
     if (error && error.message.includes("target_audience")) {
-      delete updatePayload.target_audience;
+      delete updatePayload["target_audience"];
       const res = await supabase
         .from("notices")
         .update(updatePayload)

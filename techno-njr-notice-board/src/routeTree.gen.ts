@@ -12,8 +12,11 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as CalendarRouteImport } from './routes/calendar'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as ApiGoogleOauthCallbackRouteImport } from './routes/api/google/oauth/callback'
+import { Route as ApiGoogleOauthStartRouteImport } from './routes/api/google/oauth/start'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -29,6 +32,11 @@ const AuthRoute = AuthRouteImport.update({
   path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CalendarRoute = CalendarRouteImport.update({
+  id: '/calendar',
+  path: '/calendar',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
   path: '/reset-password',
@@ -39,46 +47,85 @@ const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const ApiGoogleOauthCallbackRoute = ApiGoogleOauthCallbackRouteImport.update({
+  id: '/api/google/oauth/callback',
+  path: '/api/google/oauth/callback',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiGoogleOauthStartRoute = ApiGoogleOauthStartRouteImport.update({
+  id: '/api/google/oauth/start',
+  path: '/api/google/oauth/start',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/calendar': typeof CalendarRoute
   '/reset-password': typeof ResetPasswordRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/api/google/oauth/callback': typeof ApiGoogleOauthCallbackRoute
+  '/api/google/oauth/start': typeof ApiGoogleOauthStartRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/calendar': typeof CalendarRoute
   '/reset-password': typeof ResetPasswordRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/api/google/oauth/callback': typeof ApiGoogleOauthCallbackRoute
+  '/api/google/oauth/start': typeof ApiGoogleOauthStartRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
+  '/calendar': typeof CalendarRoute
   '/reset-password': typeof ResetPasswordRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/api/google/oauth/callback': typeof ApiGoogleOauthCallbackRoute
+  '/api/google/oauth/start': typeof ApiGoogleOauthStartRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/reset-password' | '/dashboard'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/calendar'
+    | '/reset-password'
+    | '/dashboard'
+    | '/api/google/oauth/callback'
+    | '/api/google/oauth/start'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/reset-password' | '/dashboard'
+  to:
+    | '/'
+    | '/auth'
+    | '/calendar'
+    | '/reset-password'
+    | '/dashboard'
+    | '/api/google/oauth/callback'
+    | '/api/google/oauth/start'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/auth'
+    | '/calendar'
     | '/reset-password'
     | '/_authenticated/dashboard'
+    | '/api/google/oauth/callback'
+    | '/api/google/oauth/start'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
+  CalendarRoute: typeof CalendarRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
+  ApiGoogleOauthCallbackRoute: typeof ApiGoogleOauthCallbackRoute
+  ApiGoogleOauthStartRoute: typeof ApiGoogleOauthStartRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -104,6 +151,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/calendar': {
+      id: '/calendar'
+      path: '/calendar'
+      fullPath: '/calendar'
+      preLoaderRoute: typeof CalendarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/reset-password': {
       id: '/reset-password'
       path: '/reset-password'
@@ -117,6 +171,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/dashboard'
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/api/google/oauth/callback': {
+      id: '/api/google/oauth/callback'
+      path: '/api/google/oauth/callback'
+      fullPath: '/api/google/oauth/callback'
+      preLoaderRoute: typeof ApiGoogleOauthCallbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/google/oauth/start': {
+      id: '/api/google/oauth/start'
+      path: '/api/google/oauth/start'
+      fullPath: '/api/google/oauth/start'
+      preLoaderRoute: typeof ApiGoogleOauthStartRouteImport
+      parentRoute: typeof rootRouteImport
     }
   }
 }
@@ -136,7 +204,10 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
+  CalendarRoute: CalendarRoute,
   ResetPasswordRoute: ResetPasswordRoute,
+  ApiGoogleOauthCallbackRoute: ApiGoogleOauthCallbackRoute,
+  ApiGoogleOauthStartRoute: ApiGoogleOauthStartRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
